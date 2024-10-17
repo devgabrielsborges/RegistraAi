@@ -1,0 +1,3 @@
+/home/borges/CLionProjects/RegistraAI/cmake-build-debug/CMakeFiles/RegistraAI.dir
+/home/borges/CLionProjects/RegistraAI/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/borges/CLionProjects/RegistraAI/cmake-build-debug/CMakeFiles/rebuild_cache.dir

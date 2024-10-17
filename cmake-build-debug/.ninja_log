@@ -1,0 +1,15 @@
+# ninja log v6
+4	409	1729125760536740641	CMakeFiles/RegistraAI.dir/main.c.o	ddf46c9fa860fa77
+410	615	1729125760941747937	RegistraAI	803dacc57c1f3d3d
+15	82	1729126233520137743	CMakeFiles/RegistraAI.dir/struct.c.o	7ba6cadaac2607d0
+2	133	1729126233507137518	CMakeFiles/RegistraAI.dir/main.c.o	ddf46c9fa860fa77
+3	96	1729126256507537188	CMakeFiles/RegistraAI.dir/functions.c.o	10f3f9a741076b6c
+2	97	1729126256506537171	CMakeFiles/RegistraAI.dir/main.c.o	ddf46c9fa860fa77
+97	168	1729126256601538822	RegistraAI	227243cae6f0474f
+4	42	1729126460955089819	CMakeFiles/RegistraAI.dir/struct.c.o	7ba6cadaac2607d0
+4	64	1729126595840433680	CMakeFiles/RegistraAI.dir/struct.c.o	7ba6cadaac2607d0
+1	122	1729126595838433645	CMakeFiles/RegistraAI.dir/main.c.o	ddf46c9fa860fa77
+3	139	1729126595839433662	CMakeFiles/RegistraAI.dir/functions.c.o	10f3f9a741076b6c
+139	183	1729126595975436025	RegistraAI	227243cae6f0474f
+1	44	1729126821782359800	CMakeFiles/RegistraAI.dir/main.c.o	ddf46c9fa860fa77
+44	83	1729126821825360547	RegistraAI	227243cae6f0474f
