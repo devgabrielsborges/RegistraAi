@@ -11,5 +11,6 @@ void mostrarTelaInicial();
 void registrarUsuario(dado_usuario *usuarios, int indice);
 void mostrarUsuarios(dado_usuario *usuarios, int indice_atual); // nome, endereco, nascimento
 int editarUsuario(dado_usuario *usuarios, int indice_atual);
+void limpaTela();
 
 #endif //FUNCTIONS_H

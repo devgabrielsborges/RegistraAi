@@ -4,6 +4,7 @@
 
 #include "functions.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "struct.h"
 
@@ -49,6 +50,7 @@ int editarUsuario(dado_usuario *usuarios, int indice_atual) {
         // Se encontrar um usuario e senha correspondentes
         if (strcmp(login, usuarios[i].login) == 0 && strcmp(senha, usuarios[i].senha) == 0) {
             registrarUsuario(usuarios, i);  // Permite editar o usuário
+            limpaTela();
             return 0;
         }
     }
@@ -62,4 +64,12 @@ void mostrarUsuarios(dado_usuario *usuarios, int indice_atual) {
     for (int indice = 0; indice < indice_atual; indice++) {
         printf("%s | %s | %s\n", usuarios[indice].nome, usuarios[indice].endereco, usuarios[indice].nascimento);
     }
+}
+
+void limpaTela() {
+    #ifdef _WIN32
+        system("cls");  // Comando para Windows
+    #else
+        system("clear");  // Comando para (Linux/Mac)
+    #endif
 }

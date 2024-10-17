@@ -16,6 +16,7 @@ int main(void) {
             case 1:
                 registrarUsuario(usuarios, indice_atual);
                 indice_atual++;
+                limpaTela();
                 break;
             case 2:
                 editarUsuario(usuarios, indice_atual);
@@ -26,14 +27,10 @@ int main(void) {
             case 4:
                 printf("Dados apagados\n");
                 free(usuarios);
+                limpaTela();
                 return 0;
             case 5:
-                // Limpando tela
-                #ifdef _WIN32
-                    system("cls");  // Comando para Windows
-                #else
-                    system("clear");  // Comando para (Linux/Mac)
-                #endif
+                limpaTela();
                 break;
             default:
                 printf("Opcao incorreta\n");
