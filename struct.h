@@ -8,7 +8,7 @@
 // struct dado_usuario;
 
 typedef struct {
-    char login[10];  //strcmp("borges", "borges") -> 1
+    char login[10];
     char senha[20];
     char nome[20];
     char endereco[50];
