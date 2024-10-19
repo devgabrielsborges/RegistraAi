@@ -37,95 +37,110 @@ extern void exibirTelaInicial(int nivel_login)
 }
 
 
-void inserirCadastro(dado_usuario *dados, int *indice)
+void inserirCadastro(dado_usuario **linked_dados)
 {
     limpaTela();
+    dado_usuario *node = malloc(sizeof(dado_usuario));
+    // if (node == NULL) return;
 
     printf("Login (max 9 caracteres):\n");
-    scanf(" %9s", dados[*indice].login);  // Limite de 9 caracteres + terminador
+    scanf(" %9s", node->login);  // Limite de 9 caracteres + terminador
 
     printf("Senha (max 9 caracteres):\n");
-    scanf(" %9s", dados[*indice].senha);
+    scanf(" %9s", node->senha);
 
     printf("Nome (max 19 caracteres):\n");
-    scanf(" %19s", dados[*indice].nome);
+    scanf(" %19s", node->nome);
+    getchar(); // capturando \n que sobrou no buffer
 
-    printf("Endereco (max 19 caracteres):\n");
-    scanf(" %19s", dados[*indice].endereco);
+    printf("Endereco (max 49 caracteres):\n");
+    fgets(node->endereco, 50, stdin);
+    // scanf(" %19s", node->endereco);
 
     printf("Contato (max 14 caracteres):\n");
-    scanf(" %14s", dados[*indice].contato);
+    fgets(node->contato, 15, stdin);
+    // scanf(" %14s", node->contato);
 
     printf("Nascimento (max 10 caracteres):\n");
-    scanf(" %10s", dados[*indice].nascimento); // dd/mm/aaaa
+    scanf(" %10s", node->nascimento); // dd/mm/aaaa
 
-    *indice += 1;
+    node->next = *linked_dados;
+    *linked_dados = node;
+
 }
 
 
 
-int fazerLogin(char *login, char *senha, dado_usuario dados[10],int *indice_atual)
+int fazerLogin(char *login, char *senha, dado_usuario *linked_dados, dado_usuario **usuario)
 {
     if (strcmp(login, "admin") == 0 && strcmp(senha, "admin") == 0) return 2;
 
-    for (int i = 0; i < 10; i++)
+    dado_usuario *ptr = linked_dados;
+
+    while(ptr != NULL)
     {
-        if (strcmp(login, dados[i].login) == 0 && strcmp(senha, dados[i].senha) == 0)
+        if (strcmp(login, ptr->login) == 0 && strcmp(senha, ptr->senha) == 0)
         {
-            *indice_atual = i;
+            *usuario = ptr;
             return 1;
         }
     }
-    printf("Login ou senha invalidos\n");
-    return 0; // login ou senha invalidos
+    printf("Login ou senha inválidos\n");
+    return 0;
 }
 
-void visualizarDados(dado_usuario dados[10], int indice) // mostrar dados[indice]
+void visualizarDados(dado_usuario *usuario) // mostrar dados[indice]
 {
+
     printf("Login | Senha | Nome | Endereco | Contato | Nascimento\n");
-    printf("%s | %s | %s | %s | %s | %s |\n",
-          dados[indice].login, dados[indice].senha, dados[indice].nome, dados[indice].endereco,
-          dados[indice].contato, dados[indice].nascimento
-          );
-    getchar();
+    if (usuario != NULL)
+    {
+        printf("%s | %s | %s | %s | %s | %s |\n",
+                  usuario->login, usuario->senha, usuario->nome, usuario->endereco,
+                  usuario->contato, usuario->nascimento
+                  );
+    }
 }
-int editarDados(dado_usuario dados[10], int indice) // dado_usuario dados[indice]. apenas dele mesmo
+int editarDados(dado_usuario *usuario) // dado_usuario dados[indice]. apenas dele mesmo
 {
         // Permitir apenas a edição dos campos que não sejam login e senha
         limpaTela();
 
         printf("Editar Nome:\n");
-        scanf("%s", dados[indice].nome);
+        scanf("%s", usuario->nome);
 
         printf("Editar Endereço:\n");
-        scanf("%s", dados[indice].endereco);
+        scanf("%s", usuario->endereco);
 
         printf("Editar Contato:\n");
-        scanf("%s", dados[indice].contato);
+        scanf("%s", usuario->contato);
 
         printf("Editar Nascimento:\n");
-        scanf("%s", dados[indice].nascimento);
+        scanf("%s", usuario->nascimento);
 
         return 0;
     }
 
-void visualizarTD(dado_usuario dados[10], int ultimo_indice)
+void visualizarTD(dado_usuario *linked_dados)
 {
     printf("Indice | Login | Senha | Nome | Endereco | Contato | Nascimento\n");
     printf("---------------------------------------------------------------\n");
 
-    for (int indice = 0; indice < ultimo_indice; indice++)
+    int indice = 0;
+    dado_usuario *ptr = linked_dados;
+
+    while(ptr != NULL)
     {
-        // Exibir apenas os dados inseridos
         printf("%d | %s | %s | %s | %s | %s | %s |\n",
-              indice,
-              dados[indice].login,
-              dados[indice].senha,
-              dados[indice].nome,
-              dados[indice].endereco,
-              dados[indice].contato,
-              dados[indice].nascimento
-        );
+          indice++,
+          ptr->login,
+          ptr->senha,
+          ptr->nome,
+          ptr->endereco,
+          ptr->contato,
+          ptr->nascimento
+    );
+        ptr = ptr->next;
     }
 
     printf("---------------------------------------------------------------\n");
@@ -133,63 +148,46 @@ void visualizarTD(dado_usuario dados[10], int ultimo_indice)
 }
 
 
-void editarDadoEspecifico(dado_usuario *dados)
+void editarDadoEspecifico(dado_usuario *linked_dados)
 {
     int indice;
     printf("Digite o indice do dado a ser alterado:\n");
     scanf("%d", &indice);
 
-    // Verifica se o índice está dentro do limite
-    if (indice >= 0 && indice < 10)
-    {
-        printf("Editar Login (max 9 caracteres):\n");
-        char temp_login[10];
-        scanf("%9s", temp_login);
-        strncpy(dados[indice].login, temp_login, 9);
-        dados[indice].login[9] = '\0'; // Garante que a string tenha um terminador nulo
-
-        printf("Editar Senha (max 9 caracteres):\n");
-        char temp_senha[10];
-        scanf("%9s", temp_senha);
-        strncpy(dados[indice].senha, temp_senha, 9);
-        dados[indice].senha[9] = '\0';
-
-        printf("Editar Nome (max 19 caracteres):\n");
-        char temp_nome[20];
-        scanf("%19s", temp_nome);
-        strncpy(dados[indice].nome, temp_nome, 19);
-        dados[indice].nome[19] = '\0';
-
-        printf("Editar Endereço (max 19 caracteres):\n");
-        char temp_endereco[20];
-        scanf("%19s", temp_endereco);
-        strncpy(dados[indice].endereco, temp_endereco, 19);
-        dados[indice].endereco[19] = '\0';
-
-        printf("Editar Contato (max 14 caracteres):\n");
-        char temp_contato[15];
-        scanf("%14s", temp_contato);
-        strncpy(dados[indice].contato, temp_contato, 14);
-        dados[indice].contato[14] = '\0';
-
-        printf("Editar Nascimento (max 9 caracteres):\n");
-        char temp_nascimento[10];
-        scanf("%9s", temp_nascimento);
-        strncpy(dados[indice].nascimento, temp_nascimento, 9);
-        dados[indice].nascimento[9] = '\0';
-
-        printf("\nDado alterado com sucesso!\n\n");
-    }
-    else
-    {
-        printf("Indice inválido!\n");
+    dado_usuario *ptr = linked_dados;
+    int i = 0;
+    while (ptr != NULL && i < indice) {
+        ptr = ptr->next;
+        i++;
     }
 
-    // Pausar a execução para que o usuário veja a mensagem
-    printf("Pressione Enter para continuar...");
-    getchar(); // Consumir o caractere de nova linha remanescente no buffer
-    getchar(); // Esperar pelo Enter do usuário
+    if (ptr == NULL) {
+        printf("Indice invalido.\n");
+        return;  // Sai da função se o índice for inválido
+    }
+
+    // Permite a edição dos campos
+    printf("Editar Login (max 9 caracteres):\n");
+    scanf("%9s", ptr->login);
+
+    printf("Editar Senha (max 9 caracteres):\n");
+    scanf("%9s", ptr->senha);
+
+    printf("Editar Nome (max 19 caracteres):\n");
+    scanf("%19s", ptr->nome);
+
+    printf("Editar Endereço (max 19 caracteres):\n");
+    scanf("%19s", ptr->endereco);
+
+    printf("Editar Contato (max 14 caracteres):\n");
+    scanf("%14s", ptr->contato);
+
+    printf("Editar Nascimento (max 10 caracteres):\n");
+    scanf("%10s", ptr->nascimento);
+
+    printf("\nDado alterado com sucesso!\n\n");
 }
+
 
 
 void limpaTela()

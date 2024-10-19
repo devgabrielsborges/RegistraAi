@@ -14,6 +14,7 @@ typedef struct {
     char endereco[50];
     char contato[15];
     char nascimento[11];  // dd/mm/aaaa
+    struct dado_usuario *next;
 } dado_usuario;
 
 
