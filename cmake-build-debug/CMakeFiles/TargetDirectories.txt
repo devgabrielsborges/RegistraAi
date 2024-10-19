@@ -1,0 +1,3 @@
+/home/borges/CLionProjects/sistema-cadastro/cmake-build-debug/CMakeFiles/sistema_cadastro.dir
+/home/borges/CLionProjects/sistema-cadastro/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/borges/CLionProjects/sistema-cadastro/cmake-build-debug/CMakeFiles/rebuild_cache.dir
