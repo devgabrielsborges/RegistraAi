@@ -70,3 +70,11 @@ jobs:
         path: |
           ${{ steps.strings.outputs.build-output-dir }}
           ${{ steps.strings.outputs.test-output-dir }}
+
+    - name: Move Build Artifacts to Repository Folder
+      run: |
+        mkdir -p ${{ github.workspace }}/binaries
+        mv ${{ steps.strings.outputs.build-output-dir }}/* ${{ github.workspace }}/binaries/
+        
+    - name: Commit and Push
+      uses: stefanzweifel/git-auto-commit-action@v5
