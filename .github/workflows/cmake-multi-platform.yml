@@ -49,11 +49,11 @@ jobs:
         echo "test-output-dir=${{ github.workspace }}/Builds/test" >> "$GITHUB_OUTPUT"
 
     - name: Configure CMake
-      run: >
-        cmake -B ${{ steps.strings.outputs.build-output-dir }}
-        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
-        -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
-        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+      run: |
+        cmake -B ${{ steps.strings.outputs.build-output-dir }} \
+        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
+        -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
         -S ${{ github.workspace }}
 
     - name: Build
@@ -75,6 +75,20 @@ jobs:
       run: |
         mkdir -p ${{ github.workspace }}/binaries
         mv ${{ steps.strings.outputs.build-output-dir }}/* ${{ github.workspace }}/binaries/
-        
+
+    - name: Configure SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.DEPLOY_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+    - name: Set Git remote URL to SSH
+      run: git remote set-url origin git@github.com:devgabrielsborges/RegistraAi.git
+
     - name: Commit and Push
       uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "Add build artifacts"
+        branch: main
+        file_pattern: binaries/
